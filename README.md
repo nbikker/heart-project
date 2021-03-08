@@ -1,3 +1,4 @@
-# heart-project
+# Heart Failure Project
 
-This project ...
+### About the dataset
+This project's goal is to predict what causes death by heart failure. Heart failure is the number 1 cause of death world wide, accounting for 31% of global deaths. Heart failure can occur when the heart can't pump enough blood to the rest of the body. This data set consists of 299 patients and 13 different variables that can be used to predict mortality by heart failure. These variables include age, sex, anaemia, creatinine phosphokinase, diabetes, ejection fraction, high blood pressure, platelets, serum creatinine, serum sodium, time, whether they smoke or not, and if they died. This data set includes binary variables (0 and 1). For anaemia, diabetes, high blood pressure, and smoking, 0 means false and 1 means true. For sex, 0 means female and 1 means male. For death event, 0 means they survived and 1 means they died.
