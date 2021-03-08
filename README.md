@@ -11,3 +11,10 @@ graph_age <- ggplot(df, aes(x=DEATH_EVENT, y=age, group=DEATH_EVENT)) +
   geom_boxplot(aes(fill=DEATH_EVENT),outlier.colour = 'red')
 graph_age + ggtitle("Age by Death Event") + theme_classic() 
 ```
+![age_box](https://user-images.githubusercontent.com/47092306/110375136-8ba32b00-801f-11eb-9df9-255bf18626ec.png) <br />
+As you can see, this box plot shows only one outlier. I created box plots for all of the variables, and many of them had a lot of outliers. Here is an example of the box plot "Platelets by death event" which included numerous outliers.
+```
+graph_platelets <- ggplot(df, aes(x=DEATH_EVENT, y=platelets, group=DEATH_EVENT)) +
+  geom_boxplot(aes(fill=DEATH_EVENT), outlier.colour = 'red')
+graph_platelets + ggtitle("Platelets by Death Event") + theme_classic()
+```
