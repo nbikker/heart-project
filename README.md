@@ -1,15 +1,23 @@
 # Heart Failure Prediction Project
 
 ### Objective/About the dataset
-This project's goal is to predict what causes death by heart failure. Heart failure is the number 1 cause of death world wide, accounting for 31% of global deaths. Heart failure can occur when the heart can't pump enough blood to the rest of the body. As we know, most heart diseases can first be prevented by addressing lifestyle habits such as an unhealthy diet, lack of phsyical exercise, smoking/drug use, and obesity. People that are already at greater risk due to these factors need early detection in what is causing it and would benefit from understanding models that can better predict death be heart failure. This data set from Davide Chicco and Giuseppe Jurman consists of 299 patients and 13 different variables that can be used to predict mortality by heart failure. These variables include age, sex, anaemia, creatinine phosphokinase, diabetes, ejection fraction, high blood pressure, platelets, serum creatinine, serum sodium, time, whether they smoke or not, and if they died. This data set includes binary variables (0 and 1). For anaemia, diabetes, high blood pressure, and smoking, 0 means false and 1 means true. For sex, 0 means female and 1 means male. For death event, 0 means they survived and 1 means they died.
+This project's goal is to predict what causes death by heart failure. Heart failure is the number 1 cause of death world wide, accounting for 31% of global deaths. Heart failure can occur when the heart can't pump enough blood to the rest of the body. As we know, most heart diseases can first be prevented by addressing lifestyle habits such as an unhealthy diet, lack of phsyical exercise, smoking/drug use, and obesity. People that are already at greater risk due to these factors need early detection in what is causing it and would benefit from understanding models that can better predict death by heart failure. <br />
+
+This data set from Davide Chicco and Giuseppe Jurman consists of 299 patients and 13 different variables that can be used to predict mortality by heart failure. These variables include age, sex, anaemia, creatinine phosphokinase, diabetes, ejection fraction, high blood pressure, platelets, serum creatinine, serum sodium, time, whether they smoke or not, and if they died. This data set includes binary variables (0 and 1). 
+- For anaemia, diabetes, high blood pressure, and smoking, 0 means false and 1 means true. 
+- For sex, 0 means female and 1 means male. 
+- For death event, 0 means they survived and 1 means they died.
 
 ### Methods used 
-First, important libraries I used for this data set were `skimr` to identify types of variables, `ggplot2` for visualizations, `survival` and `survminer` for the cox regression plot, and `caret` for logistic regression. To analyze this data set, I first wanted to create visualizations to better understand the data. From there, I wanted to use statistical methods such as regression models to determine which variables would be most significant in predicting death by heart failure. To start off, I used the `skim()` function from the `skimr` package to examine and identify the types of variables. From there, I used the `ggplot2` package in R to create boxplots and observe any outliers and analyze the means based on death event. <br />
+To begin, important libraries I used for this data set include `skimr` to identify types of variables, `ggplot2` for visualizations, `survival` and `survminer` for the cox regression plot, and `caret` for logistic regression. To analyze this data set, I first wanted to create visualizations to better understand the data. From there, I wanted to use statistical methods such as regression models to determine which variables would be most significant in predicting death by heart failure. <br />
+
+To start off, I used the `skim()` function from the `skimr` package to examine and identify the types of variables. Next, I used the `ggplot2` package in R to create boxplots and observe any outliers and analyze the means based on death event. <br />
+
 First, let us examine the variables. 
 ```
 skim(df)
 ```
-Results of the skim function
+###### *Results of the skim function*
 ```
 skim_variable            n_missing complete_rate       mean        sd      p0
  * <chr>                        <int>         <dbl>      <dbl>     <dbl>   <dbl>
@@ -51,15 +59,16 @@ graph_age <- ggplot(df, aes(x=DEATH_EVENT, y=age, group=DEATH_EVENT)) +
 graph_age + ggtitle("Age by Death Event") + theme_classic() 
 ```
 ![age_box](https://user-images.githubusercontent.com/47092306/110375136-8ba32b00-801f-11eb-9df9-255bf18626ec.png) <br />
-As you can see, this box plot shows only one outlier. Also, I noticed that the average age of a patient if they died was only slightly higher than if they survived. I created box plots for all of the variables, and many of them had a lot of outliers. Here is an example of the box plot "Platelets by death event" which included numerous outliers.
+As you can see, this box plot shows only one outlier. Also, we can observe that the average age of a patient if they died was only slightly higher than if they survived. I created box plots for all of the variables, and many of them had a large number of outliers. Here is an example of the box plot "Platelets by death event" which included numerous outliers.
 ```
 graph_platelets <- ggplot(df, aes(x=DEATH_EVENT, y=platelets, group=DEATH_EVENT)) +
   geom_boxplot(aes(fill=DEATH_EVENT), outlier.colour = 'red')
 graph_platelets + ggtitle("Platelets by Death Event") + theme_classic()
 ```
 ![platelets_box](https://user-images.githubusercontent.com/47092306/110376294-06b91100-8021-11eb-9054-06afc72d0a37.png) <br />
-This box plot clearly has more outliers than the age plot. After creating all the different box plots, the plots with the least amount of outliers were time and age. This could indicate that time and age are significant factors when it comes to predicting death. Also, in some of the plots, the means are dramatically different. The time plot you can see the mean for if the patient died is extremely lower than if they did not die, which makes sense. <br />
-Next, I wanted to start with my regression models. I decided to use cox regression and logistic regression to find significant variables and I wanted to see how the different regression models gave different results. I decided to use cox regression first because we are analyzing the outcome of death from heart failure. It can be used to investigate the survival time of patients in this data set and one or more of the variables. I created a formula for cox given the specific variables, and looked at the summary to find significant variables. 
+This box plot clearly has more outliers than the age plot. After creating all the different box plots, the plots with the least amount of outliers were time and age. This could indicate that time and age are significant factors when it comes to predicting death. Also, in some of the plots, the means are significantly different. In the time plot you can see that the mean for if the patient has died is extremely lower than if they did not die, which makes sense. <br />
+
+Next, I wanted to start with my regression models. I decided to use cox regression and logistic regression to find significant variables, and I wanted to see how the different regression models gave different results. I decided to use cox regression first because we are analyzing the outcome of death from heart failure. It can be used to investigate the survival time of patients in this data set and one or more of the variables. I created a formula for cox given the specific variables, and looked at the summary to find significant variables. As for logistic regression, I chose to implement this because we are also working with binary data. Let us examine what these regression models tell us. 
 ```
 cox<-coxph(Surv(time,DEATH_EVENT)~age+sex+anaemia+serum_sodium+
                    creatinine_phosphokinase+ejection_fraction+diabetes+
@@ -126,7 +135,9 @@ smoking                  -2.647e-01  4.524e-01  -0.585 0.558429
 time                     -1.812e-02  3.190e-03  -5.679 1.35e-08 ***
 ```
 When looking at a regression model, you can spot significant variables by observing the p-value. If the p-value is less than 0.05, it indicates that the variable is significant. From the summary statistics, we can see that age, ejection fraction, serum creatinine, and time are significant predictors. <br />
+
 ### Results
 These results from the regression models show that serum creatinine, ejection fraction, high blood pressure, anaemia, age and time as being the best predictors for death by heart failure. Based on the significant values, I believe serum creatine, ejection fraction and high blood pressure are the most significant. These results can help by being a tool used to help doctors understand if a patient will survive or not by focusing on these key variables. As stated earlier, this can be most beneficial for patients that are already at risk due to life style choices. <br />
+
 ### Citation of data set
 Davide Chicco, Giuseppe Jurman: Machine learning can predict survival of patients with heart failure from serum creatinine and ejection fraction alone. BMC Medical Informatics and Decision Making 20, 16 (2020).
