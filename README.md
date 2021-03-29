@@ -136,7 +136,7 @@ time                     -1.812e-02  3.190e-03  -5.679 1.35e-08 ***
 ```
 When looking at a regression model, you can spot significant variables by observing the p-value. If the p-value is less than 0.05, it indicates that the variable is significant. From the summary statistics, we can see that age, ejection fraction, serum creatinine, and time are significant predictors. <br />
 
-### Results
+### Conclusion
 These results from the regression models show that serum creatinine, ejection fraction, high blood pressure, anaemia, age and time as being the best predictors for death by heart failure. Based on the significant values, I believe serum creatine, ejection fraction and high blood pressure are the most significant. These results can help by being a tool used to help doctors understand if a patient will survive or not by focusing on these key variables. As stated earlier, this can be most beneficial for patients that are already at risk due to life style choices. <br />
 
 ### Citation of data set
